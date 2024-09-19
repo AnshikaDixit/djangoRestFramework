@@ -17,9 +17,9 @@ def get_data(id=None):
 
 def post_data():
     data = {
-    'name' : 'Shinzo',
-    'roll' : 110,
-    'city' : 'Agra'
+    'name' : 'Ravi',
+    'roll' : 150,
+    'city' : 'Kanyakumari'
     }
     json_data = json.dumps(data)
     r = requests.post(url = URL, data = json_data)
@@ -47,6 +47,6 @@ def delete_data():
     print(data)
 
 # delete_data()
-# post_data()
-get_data()  # Call without ID to get all data
+post_data()
+# get_data()  # Call without ID to get all data
 # get_data(1)  # Call with ID to get data for a specific student
