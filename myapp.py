@@ -28,7 +28,18 @@ def post_data():
     data = r.json()
     print(data)
 
+def update_data():
+    data = {
+    'id' : 4,
+    'roll' : 114,
+    'city' : 'Jaipur'
+    }
+    json_data = json.dumps(data)
+    r = requests.put(url = URL, data = json_data)
+    data = r.json()
+    print(data)
 
+update_data()
 # post_data()
 # get_data(2)  # Call without ID to get all data
 # get_data(1)  # Call with ID to get data for a specific student

@@ -25,6 +25,7 @@ def student_list(request):
     return HttpResponse(json_data, content_type='application/json')
     
 
+@csrf_exempt
 def student_api(request):
     if request.method == 'GET':
         # Check if an ID is passed as a query parameter (for GET requests)
@@ -55,6 +56,28 @@ def student_api(request):
                 if serializer.is_valid():
                     serializer.save()  # Save the student data
                     res = {'msg': "Data Created"}
+                    json_data = JSONRenderer().render(res)
+                    return HttpResponse(json_data, content_type='application/json', status=201)
+                else:
+                    json_data = JSONRenderer().render(serializer.errors)
+                    return HttpResponse(json_data, content_type='application/json', status=400)
+            except Exception as e:
+                # If any error occurs, the transaction will be rolled back automatically
+                return JsonResponse({'error': str(e)}, status=400)
+            
+    if request.method == "PUT":
+        # Use transaction.atomic() to ensure rollback in case of failure
+        with transaction.atomic():
+            try:
+                json_data = request.body
+                stream = io.BytesIO(json_data)
+                pythondata = JSONParser().parse(stream)
+                id = pythondata.get('id')
+                stu = Student.objects.get(id=id)
+                serializer = StudentSerializer(stu, data=pythondata, partial=True)
+                if serializer.is_valid():
+                    serializer.save()  # Save the student data
+                    res = {'msg': "Data updated!"}
                     json_data = JSONRenderer().render(res)
                     return HttpResponse(json_data, content_type='application/json', status=201)
                 else:
