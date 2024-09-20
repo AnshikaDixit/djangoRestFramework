@@ -4,9 +4,13 @@ from .models import Student
 # implementation of model serializers
 
 class StudentSerializer(serializers.ModelSerializer):
-     class Meta:
+    #  name = serializers.CharField(read_only = True) # to get any specific arguement in any field for give any validation, mention separately
+     class Meta: # when we want to go with default valdiations or mention in meta class for changes related to real_only => read_only_fields = ['name', 'roll']
           model = Student
-          fields = ['id', 'name', 'roll', 'city']
+          fields = ['name', 'roll', 'city']
+        #   read_only_fields = ['name', 'roll']
+          extra_kwargs = {'name' : {'read_only' : True}}
+          
     #create and update methods not required for model serializers, managed by it own
 
 
