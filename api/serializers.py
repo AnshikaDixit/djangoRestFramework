@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Student
 
-#Validators
+#Validators (P1)
 def start_with_r(value):
      if value[0].lower() != 'r':
           raise serializers.ValidationError("Name should start with R!")
@@ -20,13 +20,13 @@ class StudentSerializer(serializers.Serializer):
         instance.save()  # Save the updated instance
         return instance  # Return the updated instance
     
-#Field level validation
+#Field level validation (P2)
 def validate_roll(self, value):
         if value >= 200:
             raise serializers.ValidationError("Seat full!")
         return value
     
-#Object level validation
+#Object level validation (P3)
 def validate(self, data):
         nm = data.get('name')
         ct = data.get('city')
