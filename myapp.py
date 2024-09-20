@@ -5,9 +5,12 @@ URL = "http://127.0.0.1:8000/stuapi/"
 
 def get_data(id=None):
     data = {}
+    headers = {
+        'content-Type' : 'application/json'
+    }
     if id is not None:
         data = {'id': id}  
-    r = requests.get(url=URL, params=data)  # Using GET request with query params
+    r = requests.get(url=URL, params=data, headers=headers)  # Using GET request with query params
     if r.status_code == 200:
         data = r.json()
         print(data)
@@ -18,11 +21,14 @@ def get_data(id=None):
 def post_data():
     data = {
     'name' : 'rohit',
-    'roll' : 212,
+    'roll' : 1,
     'city' : 'ranchi'
     }
+    headers = {
+        'content-Type' : 'application/json'
+    }
     json_data = json.dumps(data)
-    r = requests.post(url = URL, data = json_data)
+    r = requests.post(url = URL, data = json_data, headers=headers)
     data = r.json()
     print(data)
 
@@ -49,6 +55,6 @@ def delete_data():
 
 # delete_data()
 # update_data()
-post_data()
-# get_data(10)  # Call without ID to get all data
+# post_data()
+# get_data()  # Call without ID to get all data
 # get_data(1)  # Call with ID to get data for a specific student
