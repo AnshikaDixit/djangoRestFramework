@@ -50,8 +50,8 @@ def delete_data():
     data = r.json()
     print(data)
 
-delete_data()
+# delete_data()
 # update_data()
-# post_data()
+post_data()
 # get_data()  # Call without ID to get all data
 # get_data(2)  # Call with ID to get data for a specific student
