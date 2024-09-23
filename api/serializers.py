@@ -15,7 +15,7 @@ class StudentSerializer(serializers.ModelSerializer):
     #  name = serializers.CharField(validators = [start_with_r]) # to get any specific arguement in any field for give any validation, mention separately
      class Meta: # when we want to go with default valdiations or mention in meta class for changes related to real_only => read_only_fields = ['name', 'roll']
           model = Student
-          fields = ['name', 'roll', 'city']
+          fields = ['id', 'name', 'roll', 'city']
         #   read_only_fields = ['name', 'roll']
         #   extra_kwargs = {'name' : {'read_only' : True}}
 
