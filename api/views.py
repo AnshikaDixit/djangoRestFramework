@@ -1,50 +1,40 @@
-from rest_framework.response import Response
+# Generic api view and model mixin
+
 from .models import Student
 from .serializers import StudentSerializer
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 
+class LCStudentAPI(GenericAPIView, ListModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
-class StudentAPI(APIView):
-    def get(self,request,pk=None, format= None):
-        id = pk
-        if id is not None:
-            stu = Student.objects.get(id=id)
-            serializer = StudentSerializer(stu)
-            return Response(serializer.data)
-        else:
-            stu = Student.objects.all()
-            serializer = StudentSerializer(stu, many=True)
-            return Response(serializer.data)
-        
-    def post(self, request, format=None):
-            serializer = StudentSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'msg': "Data Created"}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
     
-    def put(self,request, pk, format=None):
-        id = pk
-        stu = Student.objects.get(pk=id)
-        serializer = StudentSerializer(stu, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg': "Complete data updated"})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class StudentCreate(GenericAPIView, CreateModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+class StudentRetrieve(GenericAPIView, RetrieveModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
     
-    def delete(self, request, pk , format=None):
-        # id = request.data.get('id')
-        id = pk
-        stu = Student.objects.get(pk=id)
-        stu.delete()
-        return Response({'msg': "Data deleted!"})
+class StudentUpdate(GenericAPIView, UpdateModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+class StudentDestroy(GenericAPIView, DestroyModelMixin):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
     
-    def patch(self, request, pk , format=None):
-        # id = request.data.get('id')
-        id = pk
-        stu = Student.objects.get(pk=id)
-        serializer = StudentSerializer(stu, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-        return Response({'msg': "Partial data updated!"})
