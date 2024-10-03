@@ -1,11 +1,15 @@
-from api import views
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from api import views
-# from django.views.decorators.csrf import csrf_exempt
+from rest_framework.routers import DefaultRouter
+
+#create router object
+router = DefaultRouter()
+
+# register StudentViewSet with Router
+router.register('studentapi', views.StudentViewSet, basename='student')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('studentapi/', views.StudentListCreate.as_view()), #change the method name for different methods that do not require primary key
-    path('studentapi/<int:pk>', views.StudentRetrieveUpdateDestroy.as_view()), #change the method name for different methods that require primary key
+    path('', include(router.urls)),
 ]
