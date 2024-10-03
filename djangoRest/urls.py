@@ -6,6 +6,6 @@ from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('studentapi/', views.LCStudentAPI.as_view()),
-    path('studentapi/<int:pk>', views.RUDStudentAPI.as_view()),
+    path('studentapi/', views.StudentListCreate.as_view()), #change the method name for different methods that do not require primary key
+    path('studentapi/<int:pk>', views.StudentRetrieveUpdateDestroy.as_view()), #change the method name for different methods that require primary key
 ]

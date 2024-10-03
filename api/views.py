@@ -1,33 +1,40 @@
-# Generic api view and model mixin
-
 from .models import Student
 from .serializers import StudentSerializer
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, ListCreateAPIView, RetrieveUpdateAPIView, RetrieveDestroyAPIView, RetrieveUpdateDestroyAPIView
 
-# List and Create - PK(PRIMARY KEY) Not Required
-class LCStudentAPI(GenericAPIView, ListModelMixin, CreateModelMixin):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+class StudentList(ListAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-    
+class StudentCreate(CreateAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
 
-# Retrieve Update and Destrou - PK(PRIMARY KEY) Required
-class RUDStudentAPI(GenericAPIView, CreateModelMixin):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+class StudentRetrieve(RetrieveAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)  
+class StudentUpdate(UpdateAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+class StudentDestroy(DestroyAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-    
+class StudentListCreate(ListCreateAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
+
+class StudentRetrieveUpdate(RetrieveUpdateAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
+
+class StudentRetrieveDestroy(RetrieveDestroyAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
+
+class StudentRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+  queryset = Student.objects.all()
+  serializer_class = StudentSerializer
+
